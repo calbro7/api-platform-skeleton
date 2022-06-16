@@ -1,0 +1,35 @@
+version: "3.3"
+
+services:
+  php:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ".:/app"
+      - "/app/var"
+      - "/app/vendor"
+  db:
+    image: postgres:14.2
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - "db:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+  testdb:
+    image: postgres:14.2
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db
+    volumes:
+      - "testdb:/var/lib/postgresql/data"
+    ports:
+      - "5433:5432"
+
+volumes:
+  db:
+  testdb:
