@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  php:
+    build: .
+    volumes:
+      - ".:/app"
+      - "/app/var"
+      - "/app/vendor"
+    ports:
+      - "8000:8000"
+    command: "symfony server:start"
+
+  db:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+  testdb:
+    image: postgres:14.2
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+    ports:
+      - "5433:5432"
+    volumes:
+      - test-db-data:/var/lib/postgresql/data:rw
+
+volumes:
+  db-data:
+  test-db-data:
