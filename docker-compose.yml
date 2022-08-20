@@ -21,6 +21,7 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data:rw
+    command: ["postgres", "-c", "log_statement=all"]
   testdb:
     image: postgres:14.2
     environment:
