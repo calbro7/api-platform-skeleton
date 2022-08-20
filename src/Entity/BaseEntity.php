@@ -9,7 +9,7 @@ use Gedmo\SoftDeleteable\SoftDeleteable as SoftDeleteableInterface;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Timestampable as TimestampableInterface;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Uid\Ulid;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\MappedSuperclass]
 #[Loggable]
@@ -20,12 +20,12 @@ abstract class BaseEntity implements SoftDeleteableInterface, TimestampableInter
     use TimestampableEntity;
 
     #[ORM\Id]
-    #[ORM\Column(type: 'ulid', unique: true)]
+    #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
-    protected Ulid $id;
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    protected Uuid $id;
 
-    public function getId(): ?Ulid
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
