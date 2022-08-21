@@ -38,23 +38,28 @@ class BaseNormalizer implements NormalizerInterface
             ]
         );
 
-        /**
-         * @var array<string, mixed> $data
-         */
         $data = $this->decorated->normalize($object, $format, $context);
 
-        $dateTimeNormalizer = new DateTimeNormalizer();
+        if (is_string($data)) {
+            return $data;
+        }
 
-        return array_merge(
-            [
-                'id' => $object->getId(),
-                'iri' => $this->iriConverter->getIriFromItem($object),
-            ],
-            $data,
-            [
-                'createdAt' => $dateTimeNormalizer->normalize($object->getCreatedAt()),
-                'updatedAt' => $dateTimeNormalizer->normalize($object->getUpdatedAt()),
-            ]
-        );
+        if (is_array($data)) {
+            $dateTimeNormalizer = new DateTimeNormalizer();
+
+            return array_merge(
+                [
+                    'id' => $object->getId(),
+                    'iri' => $this->iriConverter->getIriFromItem($object),
+                ],
+                $data,
+                [
+                    'createdAt' => $dateTimeNormalizer->normalize($object->getCreatedAt()),
+                    'updatedAt' => $dateTimeNormalizer->normalize($object->getUpdatedAt()),
+                ]
+            );
+        }
+
+        return $data;
     }
 }
