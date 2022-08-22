@@ -95,7 +95,10 @@
         "setup-db": [
             "bin/console doctrine:schema:drop --force",
             "bin/console doctrine:migrations:version --delete --all --no-interaction",
-            "bin/console doctrine:migrations:migrate --no-interaction",
+            "bin/console doctrine:migrations:migrate --no-interaction"
+        ],
+        "fixtures": [
+            "@setup-db",
             "bin/console hautelook:fixtures:load --no-interaction"
         ],
         "test": [
